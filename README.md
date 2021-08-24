@@ -1,1 +1,1 @@
-# Final-Project2
+# 2학기 프로젝트 마이유닛 <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/></a><img src="https://img.shields.io/badge/Django-092E20?style=flat-square&logo=Django&logoColor=white"/></a>
