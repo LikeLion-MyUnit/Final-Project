@@ -73,31 +73,55 @@ class Profile(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=CASCADE)
 
     CITY_CHOICES = {
-        ('busan', '부산'),  # 오른쪽에 있는 것이 화면에 보임
-        ('seoul', '서울'),
+        ('seoul', '서울'),  # 오른쪽에 있는 것이 화면에 보임
+        ('busan', '부산'),
+        ('incheon', '인천'),
         ('daegu', '대구'),
+        ('ulsan', '울산'),
+        ('gwangju', '광주'),
+        ('daejeon', '대전'),
+        ('sejong', '세종'),
+        ('gangwon', '강원'),
+        ('gyeonggi', '경기'),
+        ('chungcheong', '충청'),
+        ('gyeongsang', '경상'),
+        ('jeonra', '전라'),
+        ('jeju', '제주'),
         ('none', '선택안함')
     }
 
-    STATUS_CHOICES = {
-        ('student', '학생'),
-        ('worker', '직장인'),
-        ('none', '선택안함')
+    INTEREST_CHOICES = {
+        ('idea', '기획/아이디어'),
+        ('marketing', '광고/마케팅'),
+        ('photo', '사진/영상'),
+        ('design', '디자인'),
+        ('science', '과학/공학'),
+        ('business', '창업'),
+        ('etc', '기타'),
+        ('none', '선택안함')      
     }
 
-    city = models.CharField(default='선택안함', max_length=80,
-                            choices=CITY_CHOICES, null=False)
-    status = models.CharField(
-        default='선택안함', max_length=80, choices=STATUS_CHOICES, null=False)
-    department = models.CharField(
-        default='', max_length=200, null=False, blank=False)
-    skill = models.CharField(
-        default='', max_length=200, null=False, blank=False)
+    TIMECNT_CHOICES = {
+        ('once', '주 1회'),
+        ('twice', '주 2회'),
+        ('three', '주 3회'),
+        ('four', '주 4회'),
+        ('five', '주 5회')
+    }
+
+    city = models.CharField(
+        default='선택안함', max_length=80, choices=CITY_CHOICES, null=False)
     interest = models.CharField(
+        default='선택안함', max_length=80, choices=INTEREST_CHOICES, null=False)
+    character = models.CharField(       # 팀 활동시 캐릭터/성향/장단점
+        default='', max_length=200, null=False, blank=False)
+    timecnt = models.CharField(       # 할애할 수 있는 시간
+        default='', max_length=80, choices=TIMECNT_CHOICES, null=False)
+    mycomment = models.CharField(   # 팀원들에게 당부하는 말
         default='', max_length=200, null=False, blank=False)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.user) 
 
 
 class SecondProfile(models.Model):
