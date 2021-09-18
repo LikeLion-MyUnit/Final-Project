@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db.models.deletion import CASCADE
+from django.db.models.expressions import F
 
 # BaseUserManager : User를 생성하는 Helper 클래스
 # AbstractBaseUser : 실제 모델이 상속받아 생성하는 클래스
@@ -68,11 +69,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.nickname
 
-
-class Profile(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=CASCADE)
-
-    CITY_CHOICES = {
+CITY_CHOICES = {
         ('seoul', '서울'),  # 오른쪽에 있는 것이 화면에 보임
         ('busan', '부산'),
         ('incheon', '인천'),
@@ -90,7 +87,7 @@ class Profile(models.Model):
         ('none', '선택안함')
     }
 
-    INTEREST_CHOICES = {
+INTEREST_CHOICES = {
         ('idea', '기획/아이디어'),
         ('marketing', '광고/마케팅'),
         ('photo', '사진/영상'),
@@ -101,6 +98,9 @@ class Profile(models.Model):
         ('none', '선택안함')      
     }
 
+class Profile(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=CASCADE)
+
     TIMECNT_CHOICES = {
         ('once', '주 1회'),
         ('twice', '주 2회'),
@@ -109,17 +109,22 @@ class Profile(models.Model):
         ('five', '주 5회')
     }
 
+    # character: 팀 활동시 캐릭터/성향/장단점
+    # timecnt: 할애할 수 있는 시간
+    # mycomment: 팀원들에게 당부하는 말
+    # is_open: 프로필 공개 여부
+
     city = models.CharField(
         default='선택안함', max_length=80, choices=CITY_CHOICES, null=False)
     interest = models.CharField(
         default='선택안함', max_length=80, choices=INTEREST_CHOICES, null=False)
-    character = models.CharField(       # 팀 활동시 캐릭터/성향/장단점
-        default='', max_length=200, null=False, blank=False)
-    timecnt = models.CharField(       # 할애할 수 있는 시간
+    character = models.CharField(
+        default='', max_length=200, null=False, blank=False)   
+    timecnt = models.CharField(
         default='', max_length=80, choices=TIMECNT_CHOICES, null=False)
-    mycomment = models.CharField(   # 팀원들에게 당부하는 말
+    mycomment = models.CharField(
         default='', max_length=200, null=False, blank=False)
-    is_open = models.BooleanField(default=True)     # 프로필 공개 여부
+    is_open = models.BooleanField(default=True)    
     
     def __str__(self):
         return str(self.user) 
@@ -130,3 +135,19 @@ class Category(models.Model):
     def __str__(self):
         return self.subject
 
+class Post(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile_user")
+    title = models.CharField(max_length=50)
+    content = models.TextField()
+    create_at = models.DateTimeField(auto_now=True)
+    category = models.ForeignKey("Category", on_delete=CASCADE, related_name='post')    # 모집/초대
+    poster = models.ImageField(blank=False)
+    like_count = models.PositiveIntegerField(default=0) # 좋아요 수
+    city = models.CharField(default='선택안함', max_length=80, choices=CITY_CHOICES, null=False)
+    interest = models.CharField(default='선택안함', max_length=80, choices=INTEREST_CHOICES, null=False)
+    end_date = models.CharField(max_length=20)   # 마감날짜는 나중에 forms에서 DateInput으로 받을 예정
+    is_open = models.BooleanField(default=True)  # 마감여부
+    recruit = models.PositiveIntegerField(default=0)    # 모집인원
+
+    def __str__(self):
+        return self.title
