@@ -119,16 +119,7 @@ class Profile(models.Model):
         default='', max_length=80, choices=TIMECNT_CHOICES, null=False)
     mycomment = models.CharField(   # 팀원들에게 당부하는 말
         default='', max_length=200, null=False, blank=False)
-
+    is_open = models.BooleanField(default=True)     # 프로필 공개 여부
+    
     def __str__(self):
         return str(self.user) 
-
-
-class SecondProfile(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=CASCADE)
-
-    portpolio = models.CharField(
-        default='', max_length=200, null=False, blank=False)
-
-    def __str__(self):
-        return str(self.user)
