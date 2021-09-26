@@ -69,6 +69,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.nickname
 
+
 CITY_CHOICES = {
     ('seoul', '서울'),  # 오른쪽에 있는 것이 화면에 보임
     ('busan', '부산'),
@@ -104,8 +105,10 @@ GENDER_CHOICES = {
     ('men', '남')
 }
 
+
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=CASCADE, related_name='profile')
+
     gender = models.CharField(
         default='선택안함', max_length=80, choices=GENDER_CHOICES, null=False)
     city = models.CharField(
@@ -113,14 +116,15 @@ class Profile(models.Model):
     interest = models.CharField(
         default='선택안함', max_length=80, choices=INTEREST_CHOICES, null=False)
     skill = models.CharField(
-        default='', max_length=200, null=False, blank=False)   
-    portfolio = models.FileField(null=True) #파일로 업로드
-    
-    # 포트폴리오 공개 여부
-    is_open = models.BooleanField(default=True)    
-    
+        default='', max_length=200, null=False, blank=False)
+    mycomment = models.CharField(
+        default='', max_length=200, null=False, blank=False)
+    portfolio = models.FileField(null=True)  # 파일로 업로드
+    is_open = models.BooleanField(default=True)
+
     def __str__(self):
-        return str(self.user) 
+        return str(self.user)
+
 
 class Category(models.Model):
     subject = models.CharField(max_length=20)
@@ -128,17 +132,23 @@ class Category(models.Model):
     def __str__(self):
         return self.subject
 
+
 class Post(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile_user")
+    profile = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="profile_user")
     title = models.CharField(max_length=50)
     content = models.TextField()
     create_at = models.DateTimeField(auto_now=True)
-    category = models.ForeignKey("Category", on_delete=CASCADE, related_name='post')    # 모집/초대
+    category = models.ForeignKey(
+        "Category", on_delete=CASCADE, related_name='post')    # 모집/초대
     poster = models.ImageField(blank=False)
-    like_count = models.PositiveIntegerField(default=0) # 좋아요 수
-    city = models.CharField(default='선택안함', max_length=80, choices=CITY_CHOICES, null=False)
-    interest = models.CharField(default='선택안함', max_length=80, choices=INTEREST_CHOICES, null=False)
-    end_date = models.CharField(max_length=20)   # 마감날짜는 나중에 forms에서 DateInput으로 받을 예정
+    like_count = models.PositiveIntegerField(default=0)  # 좋아요 수
+    city = models.CharField(default='선택안함', max_length=80,
+                            choices=CITY_CHOICES, null=False)
+    interest = models.CharField(
+        default='선택안함', max_length=80, choices=INTEREST_CHOICES, null=False)
+    # 마감날짜는 나중에 forms에서 DateInput으로 받을 예정
+    end_date = models.CharField(max_length=20)
     is_open = models.BooleanField(default=True)  # 마감여부
     recruit = models.PositiveIntegerField(default=0)    # 모집인원
 
