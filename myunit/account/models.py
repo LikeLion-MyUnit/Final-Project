@@ -99,7 +99,7 @@ INTEREST_CHOICES = {
     }
 
 class Profile(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=CASCADE,related_name='profile')
 
     TIMECNT_CHOICES = {
         ('once', '주 1회'),
