@@ -108,7 +108,7 @@ GENDER_CHOICES = {
 
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=CASCADE, related_name='profile')
-
+    photo = models.ImageField(blank=True)  # 유저 사진
     gender = models.CharField(
         default='선택안함', max_length=80, choices=GENDER_CHOICES, null=False)
     city = models.CharField(
