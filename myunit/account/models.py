@@ -69,65 +69,63 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.nickname
 
+
 CITY_CHOICES = {
-        ('seoul', '서울'),  # 오른쪽에 있는 것이 화면에 보임
-        ('busan', '부산'),
-        ('incheon', '인천'),
-        ('daegu', '대구'),
-        ('ulsan', '울산'),
-        ('gwangju', '광주'),
-        ('daejeon', '대전'),
-        ('sejong', '세종'),
-        ('gangwon', '강원'),
-        ('gyeonggi', '경기'),
-        ('chungcheong', '충청'),
-        ('gyeongsang', '경상'),
-        ('jeonra', '전라'),
-        ('jeju', '제주'),
-        ('none', '선택안함')
-    }
+    ('seoul', '서울'),  # 오른쪽에 있는 것이 화면에 보임
+    ('busan', '부산'),
+    ('incheon', '인천'),
+    ('daegu', '대구'),
+    ('ulsan', '울산'),
+    ('gwangju', '광주'),
+    ('daejeon', '대전'),
+    ('sejong', '세종'),
+    ('gangwon', '강원'),
+    ('gyeonggi', '경기'),
+    ('chungcheong', '충청'),
+    ('gyeongsang', '경상'),
+    ('jeonra', '전라'),
+    ('jeju', '제주'),
+    ('none', '선택안함')
+}
 
 INTEREST_CHOICES = {
-        ('idea', '기획/아이디어'),
-        ('marketing', '광고/마케팅'),
-        ('photo', '사진/영상'),
-        ('design', '디자인'),
-        ('science', '과학/공학'),
-        ('business', '창업'),
-        ('etc', '기타'),
-        ('none', '선택안함')      
-    }
+    ('idea', '기획/아이디어'),
+    ('marketing', '광고/마케팅'),
+    ('photo', '사진/영상'),
+    ('design', '디자인'),
+    ('science', '과학/공학'),
+    ('business', '창업'),
+    ('etc', '기타'),
+    ('none', '선택안함')
+}
+
+GENDER_CHOICES = {
+    ('none', '선택안함'),
+    ('women', '여'),
+    ('men', '남')
+}
+
 
 class Profile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=CASCADE,related_name='profile')
+    user = models.OneToOneField(
+        CustomUser, on_delete=CASCADE, related_name='profile')
 
-    TIMECNT_CHOICES = {
-        ('once', '주 1회'),
-        ('twice', '주 2회'),
-        ('three', '주 3회'),
-        ('four', '주 4회'),
-        ('five', '주 5회')
-    }
-
-    # character: 팀 활동시 캐릭터/성향/장단점
-    # timecnt: 할애할 수 있는 시간
-    # mycomment: 팀원들에게 당부하는 말
-    # is_open: 프로필 공개 여부
-
+    gender = models.CharField(
+        default='선택안함', max_length=80, choices=GENDER_CHOICES, null=False)
     city = models.CharField(
         default='선택안함', max_length=80, choices=CITY_CHOICES, null=False)
     interest = models.CharField(
         default='선택안함', max_length=80, choices=INTEREST_CHOICES, null=False)
-    character = models.CharField(
-        default='', max_length=200, null=False, blank=False)   
-    timecnt = models.CharField(
-        default='', max_length=80, choices=TIMECNT_CHOICES, null=False)
+    skill = models.CharField(
+        default='', max_length=200, null=False, blank=False)
     mycomment = models.CharField(
         default='', max_length=200, null=False, blank=False)
-    is_open = models.BooleanField(default=True)    
-    
+    portfolio = models.FileField(null=True)  # 파일로 업로드
+    is_open = models.BooleanField(default=True)
+
     def __str__(self):
-        return str(self.user) 
+        return str(self.user)
+
 
 class Category(models.Model):
     subject = models.CharField(max_length=20)
@@ -135,17 +133,23 @@ class Category(models.Model):
     def __str__(self):
         return self.subject
 
+
 class Post(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile_user")
+    profile = models.ForeignKey(
+        Profile, on_delete=models.CASCADE, related_name="profile_user")
     title = models.CharField(max_length=50)
     content = models.TextField()
     create_at = models.DateTimeField(auto_now=True)
-    category = models.ForeignKey("Category", on_delete=CASCADE, related_name='post')    # 모집/초대
+    category = models.ForeignKey(
+        "Category", on_delete=CASCADE, related_name='post')    # 모집/초대
     poster = models.ImageField(blank=False)
-    like_count = models.PositiveIntegerField(default=0) # 좋아요 수
-    city = models.CharField(default='선택안함', max_length=80, choices=CITY_CHOICES, null=False)
-    interest = models.CharField(default='선택안함', max_length=80, choices=INTEREST_CHOICES, null=False)
-    end_date = models.CharField(max_length=20)   # 마감날짜는 나중에 forms에서 DateInput으로 받을 예정
+    like_count = models.PositiveIntegerField(default=0)  # 좋아요 수
+    city = models.CharField(default='선택안함', max_length=80,
+                            choices=CITY_CHOICES, null=False)
+    interest = models.CharField(
+        default='선택안함', max_length=80, choices=INTEREST_CHOICES, null=False)
+    # 마감날짜는 나중에 forms에서 DateInput으로 받을 예정
+    end_date = models.CharField(max_length=20)
     is_open = models.BooleanField(default=True)  # 마감여부
     recruit = models.PositiveIntegerField(default=0)    # 모집인원
 
