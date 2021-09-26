@@ -96,7 +96,7 @@ INTEREST_CHOICES = {
     ('science', '과학/공학'),
     ('business', '창업'),
     ('etc', '기타'),
-    ('none', '선택안함')
+    ('none', '선택안함')      
 }
 
 GENDER_CHOICES = {
@@ -107,8 +107,7 @@ GENDER_CHOICES = {
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(
-        CustomUser, on_delete=CASCADE, related_name='profile')
+    user = models.OneToOneField(CustomUser, on_delete=CASCADE, related_name='profile')
 
     gender = models.CharField(
         default='선택안함', max_length=80, choices=GENDER_CHOICES, null=False)
