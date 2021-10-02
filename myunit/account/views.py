@@ -1,5 +1,6 @@
 from django.db.models.query import QuerySet
 from django.shortcuts import render
+from rest_framework.serializers import Serializer
 from .serializers import UserSerializer, ProfileSerializer
 from .models import Profile, CustomUser
 from rest_framework import generics
@@ -27,3 +28,4 @@ class ProfileCreate(generics.ListCreateAPIView):
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+

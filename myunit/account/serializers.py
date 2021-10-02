@@ -1,6 +1,5 @@
 # serializer(직렬화): 쿼리셋이나 모델 인스턴스같은 복잡한 구조의 데이터를 JSON, XML등 형태로 변환
-from django.db import models
-from .models import Profile, CustomUser, Category, Post
+from .models import Profile, CustomUser
 from rest_framework import serializers
 
 
@@ -25,17 +24,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = '__all__'
         read_only_fields = ['user']
+
     def create(self,validated_data):
         user = self.context['request'].user
         validated_data['user'] = user
         return super().create(validated_data)
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = "__all__"
-
-class PostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Post
-        fields = "__all__"
