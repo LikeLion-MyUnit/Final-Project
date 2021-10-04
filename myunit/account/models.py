@@ -96,7 +96,7 @@ INTEREST_CHOICES = {
     ('science', '과학/공학'),
     ('business', '창업'),
     ('etc', '기타'),
-    ('none', '선택안함')      
+    ('none', '선택안함')
 }
 
 GENDER_CHOICES = {
@@ -107,7 +107,8 @@ GENDER_CHOICES = {
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=CASCADE, related_name='profile')
+    user = models.OneToOneField(
+        CustomUser, on_delete=CASCADE, related_name='profile')
     photo = models.ImageField(blank=True)  # 유저 사진
     gender = models.CharField(
         default='선택안함', max_length=80, choices=GENDER_CHOICES, null=False)
@@ -121,7 +122,8 @@ class Profile(models.Model):
         default='', max_length=200, null=False, blank=False)
     portfolio = models.FileField(null=True)  # 파일로 업로드
     is_open = models.BooleanField(default=True)
+    like_posts = models.ManyToManyField(
+        'board.Post', blank=True, related_name='like_users')
 
     def __str__(self):
         return str(self.user)
-
