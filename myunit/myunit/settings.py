@@ -59,6 +59,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'account',
     'board',
+    'chat',
+    "phonenumber_field",
 ]
 
 MIDDLEWARE = [
