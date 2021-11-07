@@ -43,7 +43,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+CORS_ORIGIN_WHITELIST = ['http://localhost:3000','http://127.0.0.1:3000']
 
 
 # Application definition
@@ -57,11 +57,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
     'account',
     'board',
 ]
 
+REST_FRAMEWORK = {
+    #drf 인증/인가방식 설정
+	'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',)
+}
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
