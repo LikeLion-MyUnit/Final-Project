@@ -13,13 +13,14 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     # 일반 User 생성
-    def create_user(self, email, nickname, password):
+    def create_user(self, email, nickname, phonenum, password):
         if not email:
             raise ValueError('이메일은 필수입니다!')
 
         user = self.model(
             email=self.normalize_email(email),
             nickname=nickname,
+            phonenum=phonenum,
             password=password,
         )
 
@@ -58,7 +59,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         max_length=100, null=False, blank=False, unique=True)
     nickname = models.CharField(
         max_length=100, null=False, blank=False, unique=True)
-    phonenum = PhoneNumberField()
+    phonenum = PhoneNumberField(default='')
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
