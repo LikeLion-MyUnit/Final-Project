@@ -7,7 +7,7 @@ urlpatterns = [
     # 글쓰기
     path('create/', views.PostCreate.as_view()),
     path('update/<int:pk>/', views.PostDetail.as_view()),
-    path('api-auth/', include('rest_framework.urls')),
+    # path('api-auth/', include('rest_framework.urls')),
     path('post_like_toggle/<int:pk>/',views.post_like_toggle),
     path('post_all/',views.AllPostAPI),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

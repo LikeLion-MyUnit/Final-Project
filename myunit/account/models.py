@@ -22,7 +22,6 @@ class UserManager(BaseUserManager):
             nickname=nickname,
             phonenum=phonenum,
             password=password,
-            phonenum = phonenum
         )
 
         user.is_admin = False
@@ -124,7 +123,7 @@ class Profile(models.Model):
         default='', max_length=200, null=False, blank=False)
     mycomment = models.CharField(
         default='', max_length=200, null=False, blank=False)
-    portfolio = models.FileField(null=True)  # 파일로 업로드
+    portfolio = models.FileField(null=True, blank=True)  # 파일로 업로드
     is_open = models.BooleanField(default=True)
     # like_posts = models.ManyToManyField(
     #     'board.Post', blank=True, related_name='like_posts ')
