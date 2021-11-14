@@ -6,16 +6,17 @@ from rest_framework import serializers
 class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # 유효성 검증된 값으로 User 객체 생성
-            user = CustomUser.objects.create_user(
-                email=validated_data['email'],
-                nickname=validated_data['nickname'],
-                password=validated_data['password'],
-            )
-            return user
-             
+        user = CustomUser.objects.create_user(
+            email=validated_data['email'],
+            nickname=validated_data['nickname'],
+            phonenum=validated_data['phonenum'],
+            password=validated_data['password'],
+        )
+        return user
+
     class Meta:
         model = CustomUser
-        fields = ['nickname', 'email', 'password']
+        fields = ['nickname', 'email', 'password', 'phonenum']
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:

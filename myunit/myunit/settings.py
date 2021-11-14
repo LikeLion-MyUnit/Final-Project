@@ -60,6 +60,8 @@ INSTALLED_APPS = [
     'rest_auth',
     'account',
     'board',
+    'chat',
+    "phonenumber_field",
     'corsheaders',
 ]
 

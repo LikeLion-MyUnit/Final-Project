@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db.models.deletion import CASCADE
 from django.db.models.expressions import F
+from phonenumber_field.modelfields import PhoneNumberField
 
 # BaseUserManager : User를 생성하는 Helper 클래스
 # AbstractBaseUser : 실제 모델이 상속받아 생성하는 클래스
@@ -12,13 +13,14 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     # 일반 User 생성
-    def create_user(self, email, nickname, password):
+    def create_user(self, email, nickname, phonenum, password):
         if not email:
             raise ValueError('이메일은 필수입니다!')
 
         user = self.model(
             email=self.normalize_email(email),
             nickname=nickname,
+            phonenum=phonenum,
             password=password,
         )
 
@@ -57,6 +59,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         max_length=100, null=False, blank=False, unique=True)
     nickname = models.CharField(
         max_length=100, null=False, blank=False, unique=True)
+    phonenum = PhoneNumberField(default='')
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -122,8 +125,8 @@ class Profile(models.Model):
         default='', max_length=200, null=False, blank=False)
     portfolio = models.FileField(null=True)  # 파일로 업로드
     is_open = models.BooleanField(default=True)
-    like_posts = models.ManyToManyField(
-        'board.Post', blank=True, related_name='like_users')
+    # like_posts = models.ManyToManyField(
+    #     'board.Post', blank=True, related_name='like_posts ')
 
     def __str__(self):
         return str(self.user)
