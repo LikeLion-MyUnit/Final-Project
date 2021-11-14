@@ -8,7 +8,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['profile', 'title', 'contest',
-                  'content', 'poster', 'city', 'interest', 'end_date']
+                  'content', 'poster', 'city', 'interest', 'end_date','is_open', 'recruit']
         read_only_fields = ['profile']
 
     def create(self, validated_data):

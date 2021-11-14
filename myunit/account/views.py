@@ -14,6 +14,7 @@ from rest_framework.authtoken.models import Token
 
 # 유저 회원가입
 class UserCreate(generics.ListCreateAPIView):
+    permission_classes = [AllowAny,]
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
@@ -31,6 +32,7 @@ def LoginAPI(request):
     token,created = Token.objects.get_or_create(user=user)
     return Response({
         'token':token.key,
+        'nickname':user.nickname,
         'user_pk': user.pk,
         'email':user.email
     })
