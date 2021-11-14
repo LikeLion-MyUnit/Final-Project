@@ -72,58 +72,21 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.nickname
 
-
-CITY_CHOICES = {
-    ('seoul', '서울'),  # 오른쪽에 있는 것이 화면에 보임
-    ('busan', '부산'),
-    ('incheon', '인천'),
-    ('daegu', '대구'),
-    ('ulsan', '울산'),
-    ('gwangju', '광주'),
-    ('daejeon', '대전'),
-    ('sejong', '세종'),
-    ('gangwon', '강원'),
-    ('gyeonggi', '경기'),
-    ('chungcheong', '충청'),
-    ('gyeongsang', '경상'),
-    ('jeonra', '전라'),
-    ('jeju', '제주'),
-    ('none', '선택안함')
-}
-
-INTEREST_CHOICES = {
-    ('idea', '기획/아이디어'),
-    ('marketing', '광고/마케팅'),
-    ('photo', '사진/영상'),
-    ('design', '디자인'),
-    ('science', '과학/공학'),
-    ('business', '창업'),
-    ('etc', '기타'),
-    ('none', '선택안함')
-}
-
-GENDER_CHOICES = {
-    ('none', '선택안함'),
-    ('women', '여'),
-    ('men', '남')
-}
-
-
 class Profile(models.Model):
     user = models.OneToOneField(
         CustomUser, on_delete=CASCADE, related_name='profile')
     photo = models.ImageField(blank=True)  # 유저 사진
     gender = models.CharField(
-        default='선택안함', max_length=80, choices=GENDER_CHOICES, null=False)
+        default='선택안함', max_length=80, null=False)
     city = models.CharField(
-        default='선택안함', max_length=80, choices=CITY_CHOICES, null=False)
+        default='선택안함', max_length=80, null=False)
     interest = models.CharField(
-        default='선택안함', max_length=80, choices=INTEREST_CHOICES, null=False)
+        default='선택안함', max_length=80, null=False)
     skill = models.CharField(
         default='', max_length=200, null=False, blank=False)
     mycomment = models.CharField(
         default='', max_length=200, null=False, blank=False)
-    portfolio = models.FileField(null=True)  # 파일로 업로드
+    portfolio = models.FileField(null=True, blank=True)  # 파일로 업로드
     is_open = models.BooleanField(default=True)
     # like_posts = models.ManyToManyField(
     #     'board.Post', blank=True, related_name='like_posts ')
