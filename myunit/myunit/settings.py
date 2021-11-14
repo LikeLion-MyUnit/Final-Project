@@ -43,8 +43,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CORS_ORIGIN_WHITELIST = ['http://localhost:3000','http://127.0.0.1:3000']
-
+CORS_ORIGIN_WHITELIST = ['http://localhost:3000', 'http://localhost:3001', 'http://127.0.0.1:3000']
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 
@@ -55,12 +55,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
     'account',
     'board',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {

@@ -14,6 +14,7 @@ from rest_framework.authtoken.models import Token
 
 # 유저 회원가입
 class UserCreate(generics.ListCreateAPIView):
+    permission_classes = [AllowAny,]
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
