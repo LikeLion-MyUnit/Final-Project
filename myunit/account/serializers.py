@@ -6,6 +6,7 @@ from rest_framework import serializers
 class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # 유효성 검증된 값으로 User 객체 생성
+<<<<<<< HEAD
             user = CustomUser.objects.create_user(
                 email=validated_data['email'],
                 nickname=validated_data['nickname'],
@@ -13,9 +14,19 @@ class UserSerializer(serializers.ModelSerializer):
             )
             return user
              
+=======
+        user = CustomUser.objects.create_user(
+            email=validated_data['email'],
+            nickname=validated_data['nickname'],
+            phonenum=validated_data['phonenum'],
+            password=validated_data['password'],
+        )
+        return user
+
+>>>>>>> ff4604ee8cd018390628b104e4c691e2a3154dd5
     class Meta:
         model = CustomUser
-        fields = ['nickname', 'email', 'password']
+        fields = ['nickname', 'email', 'password', 'phonenum']
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
