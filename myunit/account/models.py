@@ -13,7 +13,7 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     # 일반 User 생성
-    def create_user(self, email, nickname, phonenum, password):
+    def create_user(self, email, nickname, password,phonenum):
         if not email:
             raise ValueError('이메일은 필수입니다!')
 
@@ -123,7 +123,7 @@ class Profile(models.Model):
         default='', max_length=200, null=False, blank=False)
     mycomment = models.CharField(
         default='', max_length=200, null=False, blank=False)
-    portfolio = models.FileField(null=True)  # 파일로 업로드
+    portfolio = models.FileField(null=True, blank=True)  # 파일로 업로드
     is_open = models.BooleanField(default=True)
     # like_posts = models.ManyToManyField(
     #     'board.Post', blank=True, related_name='like_posts ')
