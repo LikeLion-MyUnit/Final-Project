@@ -20,6 +20,7 @@ class UserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             nickname=nickname,
+            phonenum=phonenum,
             password=password,
             phonenum = phonenum
         )
@@ -59,7 +60,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         max_length=100, null=False, blank=False, unique=True)
     nickname = models.CharField(
         max_length=100, null=False, blank=False, unique=True)
-    phonenum = PhoneNumberField()
+    phonenum = PhoneNumberField(default='')
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
