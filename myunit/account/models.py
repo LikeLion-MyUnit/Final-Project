@@ -22,7 +22,6 @@ class UserManager(BaseUserManager):
             nickname=nickname,
             phonenum=phonenum,
             password=password,
-            phonenum = phonenum
         )
 
         user.is_admin = False

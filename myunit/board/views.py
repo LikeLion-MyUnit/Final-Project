@@ -7,8 +7,10 @@ from rest_framework import generics, response, serializers
 from django.contrib.auth.decorators import login_required
 
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes,authentication_classes
 from rest_framework.permissions import AllowAny
+from rest_framework.authentication import BasicAuthentication
+
 
 
 # 게시글 작성
@@ -44,6 +46,7 @@ def post_like_toggle(request, pk):
 
 # 게시글 전체목록
 @api_view(['GET'])
+@authentication_classes([BasicAuthentication])
 @permission_classes([AllowAny,])
 def AllPostAPI(request):
     post = Post.objects.all()
