@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db.models.deletion import CASCADE
 from django.db.models.expressions import F
 from phonenumber_field.modelfields import PhoneNumberField
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # BaseUserManager : User를 생성하는 Helper 클래스
 # AbstractBaseUser : 실제 모델이 상속받아 생성하는 클래스
@@ -13,14 +15,13 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     # 일반 User 생성
-    def create_user(self, email, nickname, password,phonenum):
+    def create_user(self, email, nickname, password):
         if not email:
             raise ValueError('이메일은 필수입니다!')
 
         user = self.model(
             email=self.normalize_email(email),
             nickname=nickname,
-            phonenum=phonenum,
             password=password,
         )
 
@@ -75,6 +76,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class Profile(models.Model):
     user = models.OneToOneField(
         CustomUser, on_delete=CASCADE, related_name='profile')
+    user_pk = models.IntegerField(null = True, blank = True)
     photo = models.ImageField(blank=True)  # 유저 사진
     gender = models.CharField(
         default='선택안함', max_length=80, null=False)
@@ -93,3 +95,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.user)
+    
+@receiver(post_save, sender=CustomUser)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance, user_pk=instance.id)
+
+@receiver(post_save, sender=CustomUser)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()

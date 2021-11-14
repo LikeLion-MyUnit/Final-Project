@@ -51,6 +51,7 @@ class ProfileCreate(generics.ListCreateAPIView):
 
 # 유저 프로필 업데이트, 삭제
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = "user_pk"
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
