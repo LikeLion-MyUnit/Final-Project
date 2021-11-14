@@ -1,13 +1,13 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
-from account.models import Profile, CITY_CHOICES, INTEREST_CHOICES
+from account.models import CITY_CHOICES, INTEREST_CHOICES
 
 
 class Post(models.Model):
     id = models.AutoField(primary_key=True)  # post_id
     profile = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name="profile_user")
-    title = models.CharField(max_length=50, blank=False)
+        'account.profile', on_delete=models.CASCADE, related_name="profile_user")
+    title = models.CharField(max_length=50)
     contest = models.CharField(max_length=50)   # 대회명
     content = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)

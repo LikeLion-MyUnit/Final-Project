@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'account',
     'board',
     'chat',
+    "phonenumber_field",
 ]
 
 REST_FRAMEWORK = {
