@@ -7,7 +7,7 @@ class Post(models.Model):
     id = models.AutoField(primary_key=True)  # post_id
     profile = models.ForeignKey(
         Profile, on_delete=models.CASCADE, related_name="profile_user")
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, blank=False)
     contest = models.CharField(max_length=50)   # 대회명
     content = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)
