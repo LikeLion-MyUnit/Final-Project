@@ -1,10 +1,11 @@
 from .models import Post
 from rest_framework import serializers
-from account.serializers import ProfileSerializer
-from account.models import Profile
+from drf_extra_fields.fields import Base64ImageField
 
 
 class PostSerializer(serializers.ModelSerializer):
+    poster = Base64ImageField(use_url=True, max_length=None)
+    
     class Meta:
         model = Post
         fields = ['profile', 'title', 'contest',

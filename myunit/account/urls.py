@@ -11,7 +11,7 @@ urlpatterns = [
     # 유저 프로필 생성
     path('profile/create/', views.ProfileCreate.as_view()),
     # 유저 프로필 업데이트, 삭제
-    path('profile/<int:pk>/', views.ProfileDetail.as_view()),
+    path('profile/<int:user_pk>/', views.ProfileDetail.as_view()),
     #유저 로그인
     path('user/login/',views.LoginAPI),
     path('api-auth/', include('rest_framework.urls')),
