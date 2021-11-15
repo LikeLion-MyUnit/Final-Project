@@ -46,7 +46,7 @@ def post_like_toggle(request, pk):
 
 # 게시글 전체목록
 @api_view(['GET'])
-@authentication_classes([BasicAuthentication])
+@authentication_classes([])
 @permission_classes([AllowAny,])
 def AllPostAPI(request):
     post = Post.objects.all()

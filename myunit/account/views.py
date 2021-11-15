@@ -34,6 +34,7 @@ def LoginAPI(request):
         'token':token.key,
         'nickname':user.nickname,
         'user_pk': user.pk,
+        'user_id': user.id,
         'email':user.email
     })
 
