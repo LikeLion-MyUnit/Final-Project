@@ -14,5 +14,6 @@ urlpatterns = [
     path('profile/<int:user_pk>/', views.ProfileDetail.as_view()),
     #유저 로그인
     path('user/login/',views.LoginAPI),
+    path('profile_all/',views.AllProfileAPI),
     path('api-auth/', include('rest_framework.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
