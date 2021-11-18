@@ -19,7 +19,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['email', 'password', 'phonenum']
 
 class ProfileSerializer(serializers.ModelSerializer):
-    photo = Base64ImageField(max_length=None, use_url=True)
+    photo = serializers.ImageField(max_length=None, use_url=True)
+    portfolio = serializers.FileField(max_length=None, use_url=True)
     
     class Meta:
         model = Profile
