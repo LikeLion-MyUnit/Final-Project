@@ -5,11 +5,9 @@ from account.models import Profile
 from .models import Post
 from rest_framework import generics, response, serializers
 from django.contrib.auth.decorators import login_required
-
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes,authentication_classes
 from rest_framework.permissions import AllowAny
-from rest_framework.authentication import BasicAuthentication
 
 
 
@@ -41,7 +39,6 @@ def post_like_toggle(request, pk):
         profile.like_posts.add(post)
         post.like_count += 1
         post.save()
-
     return
 
 # 게시글 전체목록

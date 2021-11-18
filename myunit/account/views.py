@@ -56,3 +56,10 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
+# 프로필 전체목록
+@api_view(['GET'])
+@permission_classes([AllowAny,])
+def AllProfileAPI(request):
+    profile = Profile.objects.all()
+    serializer = ProfileSerializer(profile,many=True)
+    return Response(serializer.data)
