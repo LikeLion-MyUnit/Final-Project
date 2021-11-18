@@ -4,7 +4,7 @@ from drf_extra_fields.fields import Base64ImageField
 
 
 class PostSerializer(serializers.ModelSerializer):
-    poster = Base64ImageField(use_url=True, max_length=None)
+    poster = serializers.ImageField(use_url=True, max_length=None)
     
     class Meta:
         model = Post

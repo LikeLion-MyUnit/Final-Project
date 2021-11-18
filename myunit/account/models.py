@@ -15,12 +15,13 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     # 일반 User 생성
-    def create_user(self, email, password):
+    def create_user(self, email, phonenum, password):
         if not email:
             raise ValueError('이메일은 필수입니다!')
 
         user = self.model(
             email=self.normalize_email(email),
+            phonenum=phonenum,
             password=password
         )
 
@@ -71,7 +72,7 @@ class Profile(models.Model):
         CustomUser, on_delete=CASCADE, related_name='profile')
     user_pk = models.IntegerField(null = True, blank = True)
     nickname = models.CharField(
-        max_length=100, null=False, blank=False, unique=True)
+        max_length=100, null=True, blank=True, unique=True)
     photo = models.ImageField(blank=True, null=True)  # 유저 사진
     gender = models.CharField(
         default='선택안함', max_length=80, null=False)
