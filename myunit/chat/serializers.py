@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from chat.models import Message
-from account.models import CustomUser
+from account.models import CustomUser, Profile
 # 
 # User Serializer
 class UserSerializer(serializers.ModelSerializer):
@@ -13,8 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
 # Message Serializer
 class MessageSerializer(serializers.ModelSerializer):
     """For Serializing Message"""
-    sender = serializers.SlugRelatedField(many=False, slug_field='nickname', queryset=CustomUser.objects.all())
-    receiver = serializers.SlugRelatedField(many=False, slug_field='nickname', queryset=CustomUser.objects.all())
     class Meta:
         model = Message
         fields = ['sender', 'receiver', 'message', 'timestamp']

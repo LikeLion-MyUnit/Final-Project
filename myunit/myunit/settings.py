@@ -65,13 +65,13 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
-REST_FRAMEWORK = {
-    #drf 인증/인가방식 설정
-	'DEFAULT_AUTHENTICATION_CLASSES':[
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',)
-}
+# REST_FRAMEWORK = {
+#     #drf 인증/인가방식 설정
+# 	'DEFAULT_AUTHENTICATION_CLASSES':[
+#         'rest_framework.authentication.TokenAuthentication',
+#     ],
+#     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',)
+# }
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
