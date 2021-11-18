@@ -32,7 +32,6 @@ def LoginAPI(request):
     token,created = Token.objects.get_or_create(user=user)
     return Response({
         'token':token.key,
-        'nickname':user.nickname,
         'user_pk': user.pk,
         'user_id': user.id,
         'email':user.email

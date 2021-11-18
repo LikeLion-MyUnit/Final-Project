@@ -9,7 +9,6 @@ class UserSerializer(serializers.ModelSerializer):
         # 유효성 검증된 값으로 User 객체 생성
         user = CustomUser.objects.create_user(
             email=validated_data['email'],
-            nickname=validated_data['nickname'],
             phonenum=validated_data['phonenum'],
             password=validated_data['password'],
         )
@@ -17,14 +16,14 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['nickname', 'email', 'password', 'phonenum']
+        fields = ['email', 'password', 'phonenum']
 
 class ProfileSerializer(serializers.ModelSerializer):
     photo = Base64ImageField(max_length=None, use_url=True)
     
     class Meta:
         model = Profile
-        fields = ['user', 'user_pk', 'photo', 'gender', 'city', 'interest',
+        fields = ['user', 'user_pk', 'nickname', 'photo', 'gender', 'city', 'interest',
                   'skill', 'mycomment', 'portfolio', 'is_open']
         read_only_fields = ['user']
 
