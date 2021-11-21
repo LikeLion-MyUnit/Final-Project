@@ -92,7 +92,7 @@ class Profile(models.Model):
     #     'board.Post', blank=True, related_name='like_posts ')
 
     def __str__(self):
-        return '{}-{}'.format(self.pk,self.user)
+        return '{}'.format(self.user_pk)
 
 # class ProfileImage(models.Model):
 #     image = models.ImageField(upload_to='profile_images')

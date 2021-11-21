@@ -1,6 +1,7 @@
 from django.http.response import JsonResponse
 from django.views.decorators import csrf
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import serializers
 from chat.models import Message 
 from chat.serializers import MessageSerializer # Our Serializer Classes
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -31,3 +32,17 @@ def Message_Get(request,sender,receiver):
         message.is_read = True
         message.save()
     return JsonResponse(serializer.data, safe=False)
+
+@api_view(['GET'])
+def Message_List(request,sender):
+    messages = Message.objects.filter(Q(sender=sender)|Q(receiver=sender))
+
+    object = {}
+
+    for m in messages :
+        if m.receiver.user_pk == sender:
+            object[m.sender.user_pk] = {'lastMessage' :  m.message, 'time' : m.timestamp}
+        else  :
+            object[m.receiver.user_pk] ={'lastMessage' :  m.message, 'time' : m.timestamp}
+    
+    return JsonResponse(object)
