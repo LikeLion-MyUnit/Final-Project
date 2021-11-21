@@ -64,6 +64,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'  # 사용자의 username field는 email으로 설정
+
     def __str__(self):
         return self.email
 
@@ -84,13 +85,18 @@ class Profile(models.Model):
         default='', max_length=200, null=False, blank=False)
     mycomment = models.CharField(
         default='', max_length=200, null=False, blank=False)
-    portfolio = models.FileField(null=True, blank=True)  # 파일로 업로드
+    portfolio = models.CharField(
+        default='', max_length=200, null=False, blank=False)
     is_open = models.BooleanField(default=True)
     # like_posts = models.ManyToManyField(
     #     'board.Post', blank=True, related_name='like_posts ')
 
     def __str__(self):
         return str(self.user)
+
+# class ProfileImage(models.Model):
+#     image = models.ImageField(upload_to='profile_images')
+#     user = models.ForeignKey(Profile, on_delete=CASCADE, blank=False)
     
 @receiver(post_save, sender=CustomUser)
 def create_user_profile(sender, instance, created, **kwargs):
