@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             password=password,
-            phonenum=phonenum,
+            phonenum=phonenum
         )
 
         user.is_admin = False
@@ -92,7 +92,7 @@ class Profile(models.Model):
     #     'board.Post', blank=True, related_name='like_posts ')
 
     def __str__(self):
-        return str(self.user)
+        return '{}'.format(self.user_pk)
 
 # class ProfileImage(models.Model):
 #     image = models.ImageField(upload_to='profile_images')

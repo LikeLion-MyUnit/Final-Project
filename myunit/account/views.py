@@ -1,7 +1,7 @@
 from types import FrameType
 from django.db.models.query import QuerySet
 from django.shortcuts import render
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.serializers import Serializer
 from .serializers import UserSerializer, ProfileSerializer
@@ -18,8 +18,9 @@ class UserCreate(generics.ListCreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
-#유저 로그인
+# 유저 로그인
 @api_view(['POST'])
+@authentication_classes([])
 @permission_classes([AllowAny,])
 def LoginAPI(request):
     email = request.data['email']
