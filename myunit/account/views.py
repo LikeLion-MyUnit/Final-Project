@@ -61,4 +61,4 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
 def AllProfileAPI(request):
     profile = Profile.objects.all()
     serializer = ProfileSerializer(profile,many=True)
-    return Response(serializer.data)
+    return Response(serializer.data, content_type='application/json; charset=utf-8')

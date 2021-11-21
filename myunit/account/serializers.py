@@ -1,8 +1,12 @@
 # serializer(직렬화): 쿼리셋이나 모델 인스턴스같은 복잡한 구조의 데이터를 JSON, XML등 형태로 변환
+from os import name
+from django.db.models import base, fields
 from .models import Profile, CustomUser
 from rest_framework import serializers
 from drf_extra_fields.fields import Base64ImageField
-
+import base64
+import io
+from PIL import Image
 
 class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
@@ -19,8 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['email', 'password', 'phonenum']
 
 class ProfileSerializer(serializers.ModelSerializer):
-    photo = serializers.ImageField(max_length=None, use_url=True)
-    portfolio = serializers.FileField(max_length=None, use_url=True)
+    photo = Base64ImageField(max_length=None, use_url=True)
     
     class Meta:
         model = Profile
@@ -32,3 +35,4 @@ class ProfileSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         validated_data['user'] = user
         return super().create(validated_data)
+    
