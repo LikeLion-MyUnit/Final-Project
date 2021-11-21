@@ -15,7 +15,7 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     # 일반 User 생성
-    def create_user(self, email,password,phonenum):
+    def create_user(self, email,password, phonenum):
         if not email:
             raise ValueError('이메일은 필수입니다!')
 
