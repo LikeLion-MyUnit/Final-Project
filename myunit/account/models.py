@@ -94,10 +94,6 @@ class Profile(models.Model):
     def __str__(self):
         return '{}'.format(self.user_pk)
 
-# class ProfileImage(models.Model):
-#     image = models.ImageField(upload_to='profile_images')
-#     user = models.ForeignKey(Profile, on_delete=CASCADE, blank=False)
-    
 @receiver(post_save, sender=CustomUser)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
