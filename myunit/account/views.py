@@ -10,6 +10,8 @@ from rest_framework import generics
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework import status
+
 
 
 # 유저 회원가입
@@ -23,13 +25,13 @@ class UserCreate(generics.ListCreateAPIView):
 @authentication_classes([])
 @permission_classes([AllowAny,])
 def LoginAPI(request):
-    email = request.data['email']
-    password = request.data['password']
+    email = request.data.get('email')
+    password = request.data.get('password')
     if email is None or password is None:
-        return Response({'error':'이메일과 비밀번호 모두 입력해주세요'},status=HTTP_400_BAD_REQUEST)
+        return Response({'error':'이메일과 비밀번호 모두 입력해주세요'},status=status.HTTP_400_BAD_REQUEST)
     user = authenticate(email=email,password=password)
     if not user:
-        return Response({"error":"유효하지 않은 이메일이거나 비밀번호입니다"},status=HTTP_400_BAD_REQUEST)
+        return Response({"error":"유효하지 않은 이메일이거나 비밀번호입니다"},status=status.HTTP_400_BAD_REQUEST)
     token,created = Token.objects.get_or_create(user=user)
     return Response({
         'token':token.key,
